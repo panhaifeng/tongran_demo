@@ -1,0 +1,5 @@
+<?php
+    $miniPro_config = array(
+        'url_base'  => 'https://sev7.eqinfo.com.cn/tongran_mini_boss',//服务端地址
+    );
+?>

@@ -1,0 +1,52 @@
+/* CSS Document */	
+body, div, ul, form{margin: 0px; padding:0px;}
+html, body {
+	scrollbar-face-color: #15A3D9;
+	scrollbar-highlight-color: #555555;
+	scrollbar-3dlight-color: #555555;
+	scrollbar-darkshadow-color: #60B7DE;
+	scrollbar-shadow-color: #555555;
+	scrollbar-arrow-color: #FFFFFF;
+	scrollbar-track-color: #A4D6EA;
+	background: #dae6f3;
+	font-size:12px;
+}
+
+body{margin-left:10px; margin-right:10px; margin-top:5px;}
+
+ul{list-style:none}
+
+textarea {overflow: auto;}
+
+fieldset {background-color:#F4FAFB; padding:10px; border:1px solid #999; margin-top:5px;}
+fieldset div{margin-top:10px;}
+fieldset table{margin-top:10px;}
+legend{color:#003366; border:0px; font-weight:bold; font-size:12px;}
+
+/*
+#container{margin-left:8px; margin-right:8px; padding:0px; text-align:center; font:12px Arial, Helvetica, sans-serif;}
+#container td{font:12px Arial, Helvetica, sans-serif;}*/
+
+#nav{text-align:left;}
+
+#footButton{margin-top:10px;clear:both}
+#footButton li{padding-left:30px; float:left;}
+#footButton input{height:30px; padding-top:3px;}
+
+.tableHaveBorder {border-collapse:collapse; border:1px solid #999999; width:100%; text-align:center}
+.tableHaveBorder td {border-bottom:1px solid #999999; border-right:1px solid #999999;}
+.tdTitle{background-color:#cccccc; text-align:right}
+.th{background-color:#cccccc; text-align:center}
+.th td{font-size:14px;}
+.fillRequired{color:#FF0000}
+
+/*订单基本信息介面*/
+.table100{width:100%;}
+.table100 td{height:25px;}
+
+/*列表介面*/
+.table200{width:100%; text-align:center}
+.table200 td{height:25px;}
+
+.space span{margin-right:20px; margin-left:5px; font-weight:bold;}
+.space input, select{margin-right:20px; margin-left:5px;}

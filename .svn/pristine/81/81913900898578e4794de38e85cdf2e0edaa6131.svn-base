@@ -1,0 +1,153 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script language="javascript" src="jquery.js"></script>
+<script language='javascript'>
+function suggest(objTextbox) {	
+	arrList.sort(function(a,b){
+		if(a.length>b.length)return 1;
+		else if(a.length==b.length)return a.localeCompare(b);
+		else return -1;
+	})
+	var objouter=document.getElementById("__smanDisp") //显示的DIV对象
+	var objInput = objTextbox; //文本框对象
+	var selectedIndex=-1;
+	var intTmp; //循环用的:)
+	
+	//文本框失去焦点
+	objInput.onblur=function(){
+	objouter.style.display='none';
+	}
+	//文本框按键抬起
+	objInput.onkeyup=checkKeyCode;
+	//文本框得到焦点
+	objInput.onfocus=checkAndShow;
+	function checkKeyCode(){
+	var ie = (document.all)? true:false
+	if (ie){
+	var keyCode=event.keyCode
+	if (keyCode==40||keyCode==38){ //下上
+	  var isUp=false
+	  if(keyCode==40) isUp=true ;
+	  chageSelection(isUp)
+	}else if (keyCode==13){//回车
+	  outSelection(selectedIndex);
+	}else{
+	  checkAndShow()
+	}
+	}else{
+	checkAndShow()
+	}
+	divPosition()
+	}
+
+	function checkAndShow(){
+		var strInput = objInput.value
+		if (strInput!=""){
+			divPosition();
+			selectedIndex=-1;
+			objouter.innerHTML ="";
+			for (intTmp=0;intTmp<arrList.length;intTmp++){
+			  for(i=0;i<arrList[intTmp].length;i++){ 
+				  if (arrList[intTmp].substr(i, strInput.length).toUpperCase()==strInput.toUpperCase()){
+					 addOption(arrList[intTmp],strInput);					
+				  }
+			  }
+			}
+			for (var i=0;i<objouter.childNodes.length ; i++){
+				objouter.childNodes[i].onmousedown=function() {
+					objInput.value = this.innerText;
+				}
+			}
+			objouter.style.display='';
+		}else{
+			objouter.style.display='none';
+		}
+		function addOption(value,keyw){
+			var v=value.replace(keyw,"<b><font color=red>"+keyw+"</font></b>");			
+			objouter.innerHTML +="<div onmouseover=\"this.className='sman_selectedStyle'\" onmouseout=\"this.className=''\">" + v + "</div>";			
+		}
+	}
+	function chageSelection(isUp){
+		if (objouter.style.display=='none'){
+			objouter.style.display='';
+		}else{
+			if (isUp)  selectedIndex++
+			else  selectedIndex--
+		}
+		var maxIndex = objouter.children.length-1;
+		if (selectedIndex<0){selectedIndex=0}
+		if (selectedIndex>maxIndex) {selectedIndex=maxIndex}
+		for (intTmp=0;intTmp<=maxIndex;intTmp++){
+			if (intTmp==selectedIndex){
+			  objouter.children[intTmp].className="sman_selectedStyle";
+			}else{
+			  objouter.children[intTmp].className="";
+			}
+		}
+	}
+	function outSelection(Index){
+		objInput.value = objouter.children[Index].innerText;
+		objouter.style.display='none';
+	}
+	function divPosition(){
+		objouter.style.top =getAbsoluteHeight(objInput)+getAbsoluteTop(objInput);
+		objouter.style.left =getAbsoluteLeft(objInput); 
+		objouter.style.width=getAbsoluteWidth(objInput)
+	}
+}
+
+function getAbsoluteHeight(ob){
+	return ob.offsetHeight
+}
+function getAbsoluteWidth(ob){
+	return ob.offsetWidth
+}
+function getAbsoluteLeft(ob){
+	var s_el=0;el=ob;while(el){s_el=s_el+el.offsetLeft;el=el.offsetParent;}; return s_el
+}
+function getAbsoluteTop(ob){
+	var s_el=0;el=ob;while(el){s_el=s_el+el.offsetTop ;el=el.offsetParent;}; return s_el
+}
+
+function smanPromptList(objTextbox){
+	this.style = "background:#E8F7EB;border: 1px solid #CCCCCC;font-size:14px;cursor: default;"
+	var intIndex=0;arrList = new Array();
+	arrList[intIndex++] = " 1sdfsdf红";
+	arrList[intIndex++] = " a11sdafs.net";
+	arrList[intIndex++] = " b22dsafsdf";
+	arrList[intIndex++] = " c333asdfsadf";
+	arrList[intIndex++] = " 4444dsafasdf";
+	arrList[intIndex++] = " dddsfddsafdsaf";
+	arrList[intIndex++] = " 121213dsafsdaf";
+	arrList[intIndex++] = " 43213asdfadsf";
+	arrList[intIndex++] = " dsa3121dasf3";
+	arrList[intIndex++] = " a213";
+	arrList[intIndex++] = " 323313";
+	arrList[intIndex++] = " 3213";
+	arrList[intIndex++] = " 32213";
+	arrList[intIndex++] = " dsfsdddd";
+	arrList[intIndex++] = " ds11dfsfd";
+	arrList[intIndex++] = " ffdafd";
+	arrList[intIndex++] = " afdfd";
+	arrList[intIndex++] = " afd";
+	arrList[intIndex++] = " baffad";
+	arrList[intIndex++] = " 2fda2fd";
+	arrList[intIndex++] = " dasd";
+	suggest(objTextbox);
+	//document.write("<div id='__smanDisp' style='position:absolute;display:none;" + this.style + "' onbulr> </div>");
+	//document.write("<style>.sman_selectedStyle{background-Color:#102681;color:#FFFFFF}</style>");
+	
+}
+</script>
+<style>.sman_selectedStyle{background-Color:#102681;color:#FFFFFF}</style>
+</head>
+
+<body><table><tr><td>
+<input type="text" id="inputer1" onFocus="smanPromptList(this)">
+<input type="text" id="inputer2" onFocus="smanPromptList(this)">
+</td></tr></table>
+<div id='__smanDisp' style='position:absolute;display:none;background:#E8F7EB;border: 1px solid #CCCCCC;font-size:14px;cursor: default;' onbulr> </div>
+</body>
+</html>

@@ -1,0 +1,264 @@
+
+SELECT g.vatNum,j.guige,w.color,w.colorNum,w.id as order2wareId,g.cntPlanTouliao,g.id as planId,
+                c.compName,o.orderCode,o.id as orderId
+                from trade_dye_order2ware w
+                LEFT JOIN plan_dye_gang g on w.id=g.order2wareId
+                LEFT JOIN jichu_ware j on j.id=w.wareId
+                LEFT JOIN trade_dye_order o on o.id=w.orderId
+                LEFT JOIN jichu_client c on c.id=o.clientId
+                where 1 and o.dateOrder>='2019-12-22' and o.dateOrder<='2020-02-20' and c.compName = '096109' group by w.orderId ORDER BY w.id DESC,g.id DESC  LIMIT 0,15
+11
+Array
+(
+    [0] => Array
+        (
+            [vatNum] => 191222036
+            [guige] => 紧
+            [color] => 兰灰D
+            [colorNum] => DYZ-32285
+            [order2wareId] => 24794
+            [cntPlanTouliao] => 5.00
+            [planId] => 26809
+            [compName] => 096109
+            [orderCode] => DN19122209
+            [orderId] => 7552
+        )
+
+    [1] => Array
+        (
+            [vatNum] => 191222029
+            [guige] => 紧
+            [color] => 粉红L17
+            [colorNum] => DYZ-32280
+            [order2wareId] => 24787
+            [cntPlanTouliao] => 11.00
+            [planId] => 26802
+            [compName] => 096109
+            [orderCode] => DN19122208
+            [orderId] => 7551
+        )
+
+)
+
+SELECT g.vatNum,j.guige,w.color,w.colorNum,w.id as order2wareId,g.cntPlanTouliao,g.id as planId,
+                c.compName,o.orderCode,o.id as orderId
+                from trade_dye_order2ware w
+                LEFT JOIN plan_dye_gang g on w.id=g.order2wareId
+                LEFT JOIN jichu_ware j on j.id=w.wareId
+                LEFT JOIN trade_dye_order o on o.id=w.orderId
+                LEFT JOIN jichu_client c on c.id=o.clientId
+                where 1 and o.dateOrder>='2019-12-22' and o.dateOrder<='2020-02-20' group by w.orderId ORDER BY w.id DESC,g.id DESC  LIMIT 0,15
+11
+Array
+(
+    [0] => Array
+        (
+            [vatNum] => 200215001
+            [guige] => PIMA50/JC50  环纺
+            [color] => 
+            [colorNum] => 3
+            [order2wareId] => 24865
+            [cntPlanTouliao] => 1.00
+            [planId] => 26883
+            [compName] => 0023
+            [orderCode] => DN20021501
+            [orderId] => 7576
+        )
+
+    [1] => Array
+        (
+            [vatNum] => 200213001
+            [guige] => 烧毛丝光棉
+            [color] => 
+            [colorNum] => 121
+            [order2wareId] => 24864
+            [cntPlanTouliao] => 20.00
+            [planId] => 26882
+            [compName] => 0011
+            [orderCode] => DN20021301
+            [orderId] => 7575
+        )
+
+    [2] => Array
+        (
+            [vatNum] => 
+            [guige] => C
+            [color] => 桃红
+            [colorNum] => 407619
+            [order2wareId] => 24860
+            [cntPlanTouliao] => 
+            [planId] => 
+            [compName] => 112127
+            [orderCode] => DN19122411
+            [orderId] => 7573
+        )
+
+    [3] => Array
+        (
+            [vatNum] => 191224023
+            [guige] => 紧
+            [color] => 加白
+            [colorNum] => 407190
+            [order2wareId] => 24859
+            [cntPlanTouliao] => 2000.00
+            [planId] => 26868
+            [compName] => AJ9827
+            [orderCode] => DN19122410
+            [orderId] => 7572
+        )
+
+    [4] => Array
+        (
+            [vatNum] => 191224021
+            [guige] => JC紧密纺
+            [color] => 加白
+            [colorNum] => 407190
+            [order2wareId] => 24858
+            [cntPlanTouliao] => 1500.00
+            [planId] => 26866
+            [compName] => AJ9827
+            [orderCode] => DN19122409
+            [orderId] => 7571
+        )
+
+    [5] => Array
+        (
+            [vatNum] => 191224026
+            [guige] => C
+            [color] => 黄绿
+            [colorNum] => 406908
+            [order2wareId] => 24850
+            [cntPlanTouliao] => 255.00
+            [planId] => 26871
+            [compName] => 104118
+            [orderCode] => DN19122408
+            [orderId] => 7570
+        )
+
+    [6] => Array
+        (
+            [vatNum] => 191224020
+            [guige] => C
+            [color] => 920深红
+            [colorNum] => DYZ-29007
+            [order2wareId] => 24849
+            [cntPlanTouliao] => 140.00
+            [planId] => 26865
+            [compName] => 07287
+            [orderCode] => DN19122407
+            [orderId] => 7569
+        )
+
+    [7] => Array
+        (
+            [vatNum] => 191224018
+            [guige] => 涡流纺
+            [color] => 配套绿色
+            [colorNum] => DYZ-32020
+            [order2wareId] => 24847
+            [cntPlanTouliao] => 703.00
+            [planId] => 26863
+            [compName] => AZ3218
+            [orderCode] => DN19122406
+            [orderId] => 7568
+        )
+
+    [8] => Array
+        (
+            [vatNum] => 191224011
+            [guige] => BJC
+            [color] => D深西瓜红
+            [colorNum] => DYZ-32300
+            [order2wareId] => 24840
+            [cntPlanTouliao] => 104.00
+            [planId] => 26856
+            [compName] => 116131
+            [orderCode] => DN19122405
+            [orderId] => 7567
+        )
+
+    [9] => Array
+        (
+            [vatNum] => 191224007
+            [guige] => BJC
+            [color] => 暗粉L299
+            [colorNum] => DYZ-27975
+            [order2wareId] => 24838
+            [cntPlanTouliao] => 730.00
+            [planId] => 26852
+            [compName] => 118124
+            [orderCode] => DN19122404
+            [orderId] => 7566
+        )
+
+    [10] => Array
+        (
+            [vatNum] => 191224006
+            [guige] => JC
+            [color] => M军绿
+            [colorNum] => DYZ-32270B
+            [order2wareId] => 24836
+            [cntPlanTouliao] => 6.00
+            [planId] => 26851
+            [compName] => 118124
+            [orderCode] => DN19122403
+            [orderId] => 7565
+        )
+
+    [11] => Array
+        (
+            [vatNum] => 191224001
+            [guige] => BJC
+            [color] => 浅丈青D320
+            [colorNum] => DYZ-28002
+            [order2wareId] => 24831
+            [cntPlanTouliao] => 490.00
+            [planId] => 26846
+            [compName] => 118124
+            [orderCode] => DN19122402
+            [orderId] => 7564
+        )
+
+    [12] => Array
+        (
+            [vatNum] => 191224009
+            [guige] => C
+            [color] => 浅灰
+            [colorNum] => 407417
+            [order2wareId] => 24829
+            [cntPlanTouliao] => 2000.00
+            [planId] => 26854
+            [compName] => AJ9827
+            [orderCode] => DN19122401
+            [orderId] => 7563
+        )
+
+    [13] => Array
+        (
+            [vatNum] => 191223022
+            [guige] => C
+            [color] => 暗灰褐
+            [colorNum] => DYZ-32044B
+            [order2wareId] => 24824
+            [cntPlanTouliao] => 115.00
+            [planId] => 26840
+            [compName] => 06580
+            [orderCode] => DN19122308
+            [orderId] => 7562
+        )
+
+    [14] => Array
+        (
+            [vatNum] => 191223019
+            [guige] => 
+            [color] => 灰色
+            [colorNum] => 407603
+            [order2wareId] => 24822
+            [cntPlanTouliao] => 1600.00
+            [planId] => 26837
+            [compName] => AJ9827
+            [orderCode] => DN19122307
+            [orderId] => 7561
+        )
+
+)

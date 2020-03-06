@@ -1,0 +1,32 @@
+/* CSS Document */
+html, body {scrollbar-face-color: #15A3D9;	scrollbar-highlight-color: #555555;	scrollbar-3dlight-color: #555555;
+	scrollbar-darkshadow-color: #60B7DE;	scrollbar-shadow-color: #555555;	scrollbar-arrow-color: #FFFFFF;
+	scrollbar-track-color: #A4D6EA;	background: #dae6f3;}
+body, div, ul, form{margin: 0px; padding:0px;}
+body {font:12px Arial, Helvetica, sans-serif;}
+form{margin-top:10px;}
+ul{list-style:none}
+textarea {overflow: auto;}
+fieldset {background-color:#F4FAFB; padding:10px;}
+legend {font-size:14px;color:#FF9900; border:0px; font-weight:bold}
+
+#container{margin:10px; text-align:center}
+
+#table_baseinfo{text-align:left;width:100%; height:100%}
+#table_baseinfo td{font:12px Arial, Helvetica, sans-serif;}
+#table_moreinfo{text-align:center;width:100%; height:100%}
+#table_moreinfo td{height:25px;font:12px Arial, Helvetica, sans-serif;}
+
+#addButton{margin-top:10px;}
+#addButton li{float:right;}
+#footButton{width:300px; margin-top:10px;}
+#footButton li{padding-left:30px; float:left;}
+#footButton input{width:100px; height:30px; padding-top:3px;}
+
+.style1{font-size:12px;color:#003366; border:0px;}
+.style2{font-size:12px;	font-family:Arial, Helvetica, sans-serif; font-weight:bold;}
+
+.tableHaveBorder {border-collapse:collapse; border:1px solid #999999; background-color:#FFFFFF;}
+.tableHaveBorder td {border-bottom:1px solid #999999; border-right:1px solid #999999;}
+.th{background-color:#cccccc}
+.tdTitle{background-color:#cccccc;}

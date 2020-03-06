@@ -1,0 +1,642 @@
+-- 2013-04-12 by jin --
+ALTER TABLE `jichu_vat`
+ADD COLUMN `orderLine`  smallint(4) NOT NULL COMMENT '排列序号' AFTER `cntTongzi`;
+ALTER
+ALGORITHM=UNDEFINED
+DEFINER=`root`@`localhost`
+SQL SECURITY DEFINER
+VIEW `view_dye_gang` AS
+(select `n`.`id` AS `clientId`,`n`.`compName` AS `compName`,`m`.`id` AS `wareId`,`m`.`wareName` AS `wareName`,`m`.`guige` AS `guige`,`y`.`id` AS `order2wareId`,`y`.`color` AS `color`,`y`.`colorNum` AS `colorNum`,`y`.`cntKg` AS `cntKg`,`y`.`personDayang` AS `personDayang`,`z`.`id` AS `orderId`,`z`.`orderCode` AS `orderCode`,`z`.`orderCode2` AS `orderCode2`,`z`.`dateOrder` AS `dateOrder`,`z`.`dateJiaohuo` AS `dateJiaohuo`,`x`.`id` AS `gangId`,`x`.`planDate` AS `planDate`,`x`.`vatNum` AS `vatNum`,`x`.`binggangId` AS `binggangId`,`x`.`cntPlanTouliao` AS `cntPlanTouliao`,`x`.`planTongzi` AS `planTongzi`,`x`.`unitKg` AS `unitKg`,`x`.`parentGangId` AS `parentGangId`,`x`.`reasonHuixiu` AS `reasonHuixiu`,`x`.`zhelv` AS `zhelv`,`x`.`markTwice` AS `markTwice`,`x`.`fensanOver` AS `fensanOver`,`x`.`ranseBanci` AS `ranseBanci`,`x`.`ranseBanci1` AS `ranseBanci1`,`x`.`dateAssign` AS `dateAssign`,`x`.`dateAssign1` AS `dateAssign1`,`x`.`dateLingsha` AS `dateLingsha`,`x`.`lingshaBanci` AS `lingshaBanci`,`x`.`timesPrint` AS `timesPrint`,`x`.`mergeId` AS `mergeId`,`x`.`mergeChufangId` AS `mergeChufangId`,`x`.`isJiaji` AS `isJiaji`,`x`.`stOver` AS `stOver`,`x`.`zclOver` AS `zclOver`,`x`.`rsOver` AS `rsOver`,`x`.`hsOver` AS `hsOver`,`x`.`hdOver` AS `hdOver`,`x`.`dbOver` AS `dbOver`,`t`.`id` AS `vatId`,`t`.`vatCode` AS `vatCode`,`t`.`orderLine` AS `orderLine`,`t`.`maxKg` AS `maxKg` from (((((`plan_dye_gang` `x` left join `trade_dye_order2ware` `y` on((`x`.`order2wareId` = `y`.`id`))) join `trade_dye_order` `z` on((`y`.`orderId` = `z`.`id`))) join `jichu_ware` `m` on((`y`.`wareId` = `m`.`id`))) join `jichu_client` `n` on((`z`.`clientId` = `n`.`id`))) left join `jichu_vat` `t` on((`x`.`vatId` = `t`.`id`)))) ;
+-- 2013-5-28 by jeff --
+ALTER TABLE `dye_st_chanliang`
+ADD COLUMN `banci`  varchar(10) NOT NULL COMMENT '班次' AFTER `className`,
+ADD COLUMN `isHuixiu`  tinyint NOT NULL COMMENT '是否回修' AFTER `cntK`;
+
+-- 2013-6-3 by jeff --
+ALTER TABLE `dye_hd_chanliang`
+ADD COLUMN `banci`  varchar(10) NOT NULL COMMENT '班次' AFTER `cntK`,
+ADD COLUMN `isHuixiu`  tinyint NOT NULL COMMENT '是否回修' AFTER `cntK`;
+
+-- 2013-6-5 by jeff --
+ALTER TABLE `cangku_yl_chuku` ADD INDEX `kind` (`kind`) ;
+
+-- 2013-6-7 by sonic --
+ALTER TABLE `jichu_client`
+ADD COLUMN `iURL`  varchar(500) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '接口URL地址' AFTER `isStop`;
+
+ALTER TABLE `trade_dye_order`
+ADD COLUMN `ranshaNum`  varchar(50) NOT NULL COMMENT '染纱计划单号' AFTER `isKongnian`;
+
+ALTER TABLE `trade_dye_order2ware`
+ADD COLUMN `randanShazhi`  varchar(20) NOT NULL COMMENT '染单纱支(对应主表染纱计划单号)' AFTER `dateDuizhang`;
+
+ALTER 
+ALGORITHM=UNDEFINED 
+DEFINER=`root`@`localhost` 
+SQL SECURITY DEFINER 
+VIEW `view_dye_all` AS 
+(select `n`.`id` AS `clientId`,`n`.`compName` AS `compName`,`m`.`id` AS `wareId`,`m`.`wareName` AS `wareName`,`m`.`guige` AS `guige`,`y`.`id` AS `order2wareId`,`y`.`color` AS `color`,`y`.`colorNum` AS `colorNum`,`y`.`cntKg` AS `cntKg`,`z`.`id` AS `orderId`,`z`.`orderCode` AS `orderCode`,`z`.`orderCode2` AS `orderCode2`,`z`.`dateOrder` AS `dateOrder`,`z`.`dateJiaohuo` AS `dateJiaohuo`, z.ranshaNum,`x`.`id` AS `gangId`,`x`.`planDate` AS `planDate`,`x`.`vatNum` AS `vatNum`,`x`.`cntPlanTouliao` AS `cntPlanTouliao`,`x`.`planTongzi` AS `planTongzi`,`x`.`unitKg` AS `unitKg`,`x`.`parentGangId` AS `parentGangId`,`x`.`zhelv` AS `zhelv`,`x`.`markTwice` AS `markTwice`,`x`.`ranseBanci` AS `ranseBanci`,`x`.`ranseBanci1` AS `ranseBanci1`,`x`.`dateAssign` AS `dateAssign`,`x`.`dateAssign1` AS `dateAssign1`,`x`.`dateLingsha` AS `dateLingsha`,`x`.`lingshaBanci` AS `lingshaBanci`,`x`.`timesPrint` AS `timesPrint`,`t`.`id` AS `vatId`,`t`.`vatCode` AS `vatCode` from (((((`trade_dye_order` `z` left join `trade_dye_order2ware` `y` on((`y`.`orderId` = `z`.`id`))) left join `plan_dye_gang` `x` on((`x`.`order2wareId` = `y`.`id`))) left join `jichu_ware` `m` on((`y`.`wareId` = `m`.`id`))) left join `jichu_client` `n` on((`z`.`clientId` = `n`.`id`))) left join `jichu_vat` `t` on((`x`.`vatId` = `t`.`id`)))) ;
+
+-- 2013-6-18 by jeff --
+ALTER TABLE `plan_dye_gang`
+ADD INDEX `dateAssign` (`dateAssign`) ,
+ADD INDEX `dateAssign1` (`dateAssign1`) ;
+
+-- 2013-7-4 by liu --
+ALTER TABLE `dye_zcl_chanliang`
+ADD COLUMN `isHuixiu`  tinyint NOT NULL AFTER `memo`;
+ALTER TABLE `dye_hs_chanliang`
+ADD COLUMN `banci`  tinyint NOT NULL COMMENT '班次' AFTER `dt`,
+ADD COLUMN `isHuixiu`  tinyint NOT NULL COMMENT '是否回修' AFTER `banci`;
+
+-- 2013-8-26 by jeff --
+ALTER TABLE `dye_rs_chanliang`
+MODIFY COLUMN `banci`  varchar(10) NOT NULL COMMENT '班次' AFTER `chanliangDate`;
+ALTER TABLE `dye_rs_chanliang`
+ADD INDEX `banci` (`banci`) ;
+
+-- 2013-8-26 by liu --
+ALTER TABLE `trade_dye_order2ware`
+ADD COLUMN `isComplete`  tinyint NOT NULL COMMENT '标记处方完成' AFTER `randanShazhi`;
+ALTER TABLE `dye_zcl_chanliang`
+ADD COLUMN `isChulong`  tinyint(4) NOT NULL COMMENT '是否为出笼 0为装笼 1为出笼' AFTER `isHuixiu`;
+
+-- 2016-03-31 11:16:38 by wuyou --
+CREATE TABLE `sys_print` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '表主键',
+  `name` varchar(20) NOT NULL COMMENT '打印字段',
+  `top` int(11) NOT NULL COMMENT '上边距',
+  `left` int(11) NOT NULL COMMENT '左边距',
+  `isPrint` tinyint(4) NOT NULL COMMENT '是否打印',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='流转卡打印设置表';
+
+-- 2016-9-1 by zcc --
+ALTER TABLE dye_db_chanliang ADD COLUMN `banci` varchar(10) COLLATE utf8_bin NOT NULL COMMENT '班次';
+
+
+-- 2017-04-08 by zcc --
+INSERT INTO `acm_funcdb` VALUES (1, -1, '_#_ROOT_NODE_#_', 1, 238);
+INSERT INTO `acm_funcdb` VALUES (2, 0, '销售管理', 2, 9);
+INSERT INTO `acm_funcdb` VALUES (3, 0, '生产管理', 10, 63);
+INSERT INTO `acm_funcdb` VALUES (4, 0, '财务管理', 64, 109);
+INSERT INTO `acm_funcdb` VALUES (5, 0, '采购管理', 110, 121);
+INSERT INTO `acm_funcdb` VALUES (6, 0, ' 人事办公', 122, 127);
+INSERT INTO `acm_funcdb` VALUES (7, 0, '系统设置', 128, 131);
+INSERT INTO `acm_funcdb` VALUES (8, 0, '基础资料', 132, 159);
+INSERT INTO `acm_funcdb` VALUES (9, 4, '应付管理', 65, 74);
+INSERT INTO `acm_funcdb` VALUES (10, 9, '应付款初始化', 66, 67);
+INSERT INTO `acm_funcdb` VALUES (11, 9, '付款凭证审核', 68, 69);
+INSERT INTO `acm_funcdb` VALUES (13, 9, '应付款报表', 70, 71);
+INSERT INTO `acm_funcdb` VALUES (14, 4, '应收管理', 75, 84);
+INSERT INTO `acm_funcdb` VALUES (15, 4, '订单审核', 85, 86);
+INSERT INTO `acm_funcdb` VALUES (16, 4, '发货审核', 87, 88);
+INSERT INTO `acm_funcdb` VALUES (17, 5, '采购申请', 111, 112);
+INSERT INTO `acm_funcdb` VALUES (18, 5, '采购订单管理', 113, 114);
+INSERT INTO `acm_funcdb` VALUES (19, 5, '仓库管理', 115, 120);
+INSERT INTO `acm_funcdb` VALUES (20, 19, '采购入库登记', 116, 117);
+INSERT INTO `acm_funcdb` VALUES (21, 19, '付款凭证登记', 118, 119);
+INSERT INTO `acm_funcdb` VALUES (22, 7, '权限管理', 129, 130);
+INSERT INTO `acm_funcdb` VALUES (23, 8, '产品档案', 133, 134);
+INSERT INTO `acm_funcdb` VALUES (24, 8, '货品档案', 135, 136);
+INSERT INTO `acm_funcdb` VALUES (25, 8, '客户档案', 137, 138);
+INSERT INTO `acm_funcdb` VALUES (26, 8, '供应商档案', 139, 140);
+INSERT INTO `acm_funcdb` VALUES (27, 8, '员工档案', 141, 142);
+INSERT INTO `acm_funcdb` VALUES (28, 8, '部门资料', 143, 144);
+INSERT INTO `acm_funcdb` VALUES (30, 2, '订单录入', 3, 8);
+INSERT INTO `acm_funcdb` VALUES (31, 4, '收支管理', 89, 102);
+INSERT INTO `acm_funcdb` VALUES (32, 31, '付款登记', 90, 91);
+INSERT INTO `acm_funcdb` VALUES (33, 31, '收款登记', 92, 93);
+INSERT INTO `acm_funcdb` VALUES (34, 31, '支出项目管理', 94, 95);
+INSERT INTO `acm_funcdb` VALUES (35, 31, '帐户管理', 96, 97);
+INSERT INTO `acm_funcdb` VALUES (36, 31, '现金日记账', 98, 99);
+INSERT INTO `acm_funcdb` VALUES (37, 31, '银行日记帐', 100, 101);
+INSERT INTO `acm_funcdb` VALUES (38, 3, '成品车间', 11, 24);
+INSERT INTO `acm_funcdb` VALUES (39, 38, '筒染成品入库', 12, 17);
+INSERT INTO `acm_funcdb` VALUES (40, 38, '筒染成品出库', 18, 23);
+INSERT INTO `acm_funcdb` VALUES (41, 14, '针织发货审核', 76, 77);
+INSERT INTO `acm_funcdb` VALUES (42, 14, '销售发票登记', 78, 79);
+INSERT INTO `acm_funcdb` VALUES (43, 14, '应收款初始化', 80, 81);
+INSERT INTO `acm_funcdb` VALUES (45, 14, '应收款报表', 82, 83);
+INSERT INTO `acm_funcdb` VALUES (46, 4, '报表中心', 103, 108);
+INSERT INTO `acm_funcdb` VALUES (47, 46, '牛仔业务考核报表', 104, 105);
+INSERT INTO `acm_funcdb` VALUES (48, 46, '牛仔生产考核报表', 106, 107);
+INSERT INTO `acm_funcdb` VALUES (49, 3, '生产计划管理', 25, 42);
+INSERT INTO `acm_funcdb` VALUES (50, 0, '仓库管理', 160, 223);
+INSERT INTO `acm_funcdb` VALUES (51, 50, '染化料仓库管理', 161, 190);
+INSERT INTO `acm_funcdb` VALUES (52, 50, '坯纱仓库管理', 191, 206);
+INSERT INTO `acm_funcdb` VALUES (53, 3, '松筒车间', 43, 44);
+INSERT INTO `acm_funcdb` VALUES (54, 3, '回倒车间', 45, 46);
+INSERT INTO `acm_funcdb` VALUES (55, 51, '入库登记', 162, 167);
+INSERT INTO `acm_funcdb` VALUES (56, 51, '退库登记', 168, 173);
+INSERT INTO `acm_funcdb` VALUES (57, 52, '入库登记', 192, 197);
+INSERT INTO `acm_funcdb` VALUES (58, 52, '领料登记', 198, 203);
+INSERT INTO `acm_funcdb` VALUES (59, 3, '染色车间', 47, 48);
+INSERT INTO `acm_funcdb` VALUES (60, 3, '大样处方管理', 49, 62);
+INSERT INTO `acm_funcdb` VALUES (61, 55, '染化料-入库登记-查询', 163, 164);
+INSERT INTO `acm_funcdb` VALUES (62, 55, '染化料-入库登记-修改', 165, 166);
+INSERT INTO `acm_funcdb` VALUES (65, 56, '付款凭证登记-查询', 169, 170);
+INSERT INTO `acm_funcdb` VALUES (67, 56, '付款凭证登记-修改', 171, 172);
+INSERT INTO `acm_funcdb` VALUES (69, 6, '信息发布', 123, 124);
+INSERT INTO `acm_funcdb` VALUES (70, 6, '个人设置', 125, 126);
+INSERT INTO `acm_funcdb` VALUES (71, 39, '成品-入库-查询', 13, 14);
+INSERT INTO `acm_funcdb` VALUES (73, 39, '成品-入库-修改', 15, 16);
+INSERT INTO `acm_funcdb` VALUES (75, 40, '成品-出库-查询', 19, 20);
+INSERT INTO `acm_funcdb` VALUES (77, 40, '成品-出库-修改', 21, 22);
+INSERT INTO `acm_funcdb` VALUES (79, 60, '新开处方', 50, 55);
+INSERT INTO `acm_funcdb` VALUES (80, 60, '大样处方管理', 56, 61);
+INSERT INTO `acm_funcdb` VALUES (81, 79, '大样-新开处方-查询', 51, 52);
+INSERT INTO `acm_funcdb` VALUES (83, 79, '大样-新开处方-修改', 53, 54);
+INSERT INTO `acm_funcdb` VALUES (85, 80, '大样-处方管理-查询', 57, 58);
+INSERT INTO `acm_funcdb` VALUES (87, 80, '大样-处方管理-修改', 59, 60);
+INSERT INTO `acm_funcdb` VALUES (89, 49, '筒染订单', 26, 31);
+INSERT INTO `acm_funcdb` VALUES (90, 49, '计划单管理', 32, 37);
+INSERT INTO `acm_funcdb` VALUES (91, 89, '生产计划-筒染订单-查询', 27, 28);
+INSERT INTO `acm_funcdb` VALUES (93, 89, '生产计划-筒染订单-修改', 29, 30);
+INSERT INTO `acm_funcdb` VALUES (96, 57, '坏纱入库-查询', 193, 194);
+INSERT INTO `acm_funcdb` VALUES (98, 57, '坏纱入库-修改', 195, 196);
+INSERT INTO `acm_funcdb` VALUES (100, 58, '坯纱领料-查询', 199, 200);
+INSERT INTO `acm_funcdb` VALUES (102, 58, '坯纱领料-修改', 201, 202);
+INSERT INTO `acm_funcdb` VALUES (104, 90, '计划单-查询', 33, 34);
+INSERT INTO `acm_funcdb` VALUES (105, 90, '计划单-修改', 35, 36);
+INSERT INTO `acm_funcdb` VALUES (106, 52, '库存报表', 204, 205);
+INSERT INTO `acm_funcdb` VALUES (107, 30, '销售-订单-查询', 4, 5);
+INSERT INTO `acm_funcdb` VALUES (108, 30, '销售-订单-修改', 6, 7);
+INSERT INTO `acm_funcdb` VALUES (109, 49, '染色日计划安排', 38, 39);
+INSERT INTO `acm_funcdb` VALUES (110, 49, '领纱日计划安排', 40, 41);
+INSERT INTO `acm_funcdb` VALUES (111, 0, '特殊权限', 224, 227);
+INSERT INTO `acm_funcdb` VALUES (112, 111, '加急单编辑', 225, 226);
+INSERT INTO `acm_funcdb` VALUES (113, 51, '按处方领料', 174, 175);
+INSERT INTO `acm_funcdb` VALUES (114, 51, '领料查询', 176, 177);
+INSERT INTO `acm_funcdb` VALUES (115, 51, '其他出库', 178, 179);
+INSERT INTO `acm_funcdb` VALUES (116, 51, '染料耗用分析', 180, 181);
+INSERT INTO `acm_funcdb` VALUES (117, 51, '染料用量日报表', 182, 183);
+INSERT INTO `acm_funcdb` VALUES (118, 51, '染化料月报表', 184, 185);
+INSERT INTO `acm_funcdb` VALUES (119, 51, '库存调整', 186, 187);
+INSERT INTO `acm_funcdb` VALUES (120, 51, '库存调整查询', 188, 189);
+INSERT INTO `acm_funcdb` VALUES (121, 50, '五金仓库', 207, 222);
+INSERT INTO `acm_funcdb` VALUES (122, 121, '库存初始化', 208, 209);
+INSERT INTO `acm_funcdb` VALUES (123, 121, '入库登记', 210, 211);
+INSERT INTO `acm_funcdb` VALUES (124, 121, '入库查询', 212, 213);
+INSERT INTO `acm_funcdb` VALUES (125, 121, '出库登记', 214, 215);
+INSERT INTO `acm_funcdb` VALUES (126, 121, '出库查询', 216, 217);
+INSERT INTO `acm_funcdb` VALUES (127, 121, '库存查询', 218, 219);
+INSERT INTO `acm_funcdb` VALUES (128, 121, '收发存月报表', 220, 221);
+INSERT INTO `acm_funcdb` VALUES (129, 8, '五金基础资料', 145, 158);
+INSERT INTO `acm_funcdb` VALUES (130, 129, '五金档案', 146, 147);
+INSERT INTO `acm_funcdb` VALUES (131, 129, '库存位置', 148, 149);
+INSERT INTO `acm_funcdb` VALUES (132, 129, '领料部门设置', 150, 151);
+INSERT INTO `acm_funcdb` VALUES (133, 129, '供应商档案', 152, 153);
+INSERT INTO `acm_funcdb` VALUES (134, 129, '员工档案', 154, 155);
+INSERT INTO `acm_funcdb` VALUES (135, 129, '人员设置', 156, 157);
+INSERT INTO `acm_funcdb` VALUES (136, 9, '发票管理', 72, 73);
+INSERT INTO `acm_funcdb` VALUES (137, 0, '财务对账单', 228, 237);
+INSERT INTO `acm_funcdb` VALUES (138, 137, '财务对账', 229, 236);
+INSERT INTO `acm_funcdb` VALUES (139, 138, '添加订单价格', 230, 231);
+INSERT INTO `acm_funcdb` VALUES (140, 138, '订单单价修改', 232, 233);
+INSERT INTO `acm_funcdb` VALUES (141, 138, '对账单', 234, 235);
+
+
+
+-- by zcc 2017年4月8日 10:23:23 --
+INSERT INTO `sys_print` VALUES (118,'orderCode',30,48,1);
+
+//南通东阳
+-- 2017年9月12日 17:07:56 by zcc--
+
+ALTER TABLE plan_dye_gang ADD COLUMN `vat2shuirongId` smallint(4) NOT NULL COMMENT '染缸下选择的水溶量Id';
+
+CREATE TABLE `jichu_vat2shuirong` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `vatId` int(10) NOT NULL COMMENT '关联的染缸Id',
+  `cengCnt` smallint(4) NOT NULL COMMENT '层数',
+  `minCntTongzi` int(10) NOT NULL COMMENT '最小筒子数',
+  `maxCntTongzi` int(10) NOT NULL COMMENT '最大筒子数',
+  `shuirong` float(10,2) NOT NULL COMMENT '水溶量',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='染缸的水溶量表';
+
+-- 2017年9月13日 16:39:03 by zcc --
+ALTER TABLE jichu_vat2shuirong ADD COLUMN `kind` VARCHAR(20) NOT NULL COMMENT '类型';
+
+-- 2017-09-25 10:44:30 by zcc --
+ALTER TABLE cangku_ruku2ware ADD COLUMN pihao varchar(30) COLLATE utf8_bin NOT NULL COMMENT '批号';
+ALTER TABLE cangku_chuku2ware ADD COLUMN pihao varchar(30) COLLATE utf8_bin NOT NULL COMMENT '批号';
+
+
+ALTER TABLE trade_dye_order MODIFY `fastness_gan` varchar(30) COLLATE utf8_bin NOT NULL COMMENT '干磨色牢度登记';
+ALTER TABLE trade_dye_order MODIFY `fastness_shi` varchar(30) COLLATE utf8_bin NOT NULL COMMENT '湿磨色牢度登记';
+ALTER TABLE trade_dye_order MODIFY `fastness_baizhan` varchar(30) COLLATE utf8_bin NOT NULL COMMENT '白沾色牢度登记';
+ALTER TABLE trade_dye_order MODIFY `fastness_tuise` varchar(30) COLLATE utf8_bin NOT NULL COMMENT '褪色色牢度登记';
+ALTER TABLE trade_dye_order ADD COLUMN `fastness_yuanyang` varchar(30) NOT NULL COMMENT '原样变化色牢度登记';
+ALTER TABLE trade_dye_order ADD COLUMN `fastness_rishai` varchar(30) NOT NULL COMMENT '日晒色牢度登记';
+ALTER TABLE trade_dye_order ADD COLUMN `fastness_hanzi` varchar(30) NOT NULL COMMENT '汗渍色牢度登记';
+
+-- 2017年9月27日 18:35:06 by zhuli --
+ALTER TABLE trade_dye_order2ware ADD COLUMN pihao varchar(30) COLLATE utf8_bin NOT NULL COMMENT '批号';
+
+-- 2017年9月28日 17:48:35 by zcc--
+ALTER TABLE caiwu_income MODIFY `incomeNum` varchar(65) COLLATE utf8_bin NOT NULL COMMENT '凭证编号';
+ALTER TABLE caiwu_invoice MODIFY `invoiceNum` varchar(60) COLLATE utf8_bin NOT NULL;
+ALTER TABLE plan_dye_gang MODIFY `zhelv` decimal(5,3) NOT NULL COMMENT '折率';
+
+ALTER TABLE trade_dye_order ADD COLUMN paymentWay int(1) NOT NULL COMMENT '结算方式 0为投料，1为净重，2为折率';
+ALTER TABLE trade_dye_order ADD COLUMN zhelv  decimal(5,3) NOT NULL COMMENT '折率';
+ALTER TABLE chengpin_dye_cpck ADD COLUMN `jingKgZ` decimal(10,2) NOT NULL COMMENT '折率净重';
+ALTER TABLE jichu_client ADD COLUMN paymentWay int(1) NOT NULL COMMENT '结算方式 0为投料，1为净重，2为折率';
+
+-- 2017年10月9日 15:58:13 by zcc --
+ALTER TABLE  gongyi_dye_chufang ADD COLUMN  `rscfId` int(10) NOT NULL COMMENT '染色处方id';
+ALTER TABLE  gongyi_dye_chufang ADD COLUMN `memoQcl` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '前处理别名';
+ALTER TABLE  gongyi_dye_chufang ADD COLUMN `memoRs` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '染色别名';
+ALTER TABLE  gongyi_dye_chufang ADD COLUMN `memoHcl` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '后整理别名';
+ALTER TABLE  gongyi_dye_chufang ADD COLUMN `memoCf` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '染色处方别名';
+
+-- 2017年10月13日 09:51:54 by zcc -- 
+CREATE TABLE `sys_dbchange_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fileName` varchar(40) NOT NULL COMMENT '文件名',
+  `dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `content` text NOT NULL,
+  `memo` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fileName` (`fileName`),
+  KEY `dt` (`dt`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='数据补丁执行表';
+
+
+
+-- 2018年3月12日 11:00:18 by shen -- 
+CREATE TABLE `jichu_rsprice` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `gxName` varchar(30) NOT NULL COMMENT '染色工序名称',
+  `price` decimal(10,2) NOT NULL COMMENT '价格',
+  `kind` varchar(20) NOT NULL COMMENT '类型',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=280 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='各染缸的工序单价';
+
+CREATE TABLE `jichu_vat2gxprice` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `vatId` int(10) NOT NULL COMMENT '关联的染缸Id',
+  `gxId` int(30) NOT NULL COMMENT '染色工序id',
+  `price` decimal(10,2) NOT NULL COMMENT '价格',
+  `kind` varchar(20) NOT NULL COMMENT '类型',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=282 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='各染缸的工序单价';
+
+CREATE TABLE `jichu_ware_danjia` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `wareId` int(10) NOT NULL COMMENT '坯纱货品档案id',
+  `danjiaSt` decimal(10,2) NOT NULL COMMENT '单价(松筒)/kg',
+  `danjiaZcl` decimal(10,2) NOT NULL COMMENT '单价(装出笼)/kg',
+  `danjiaRs` decimal(10,2) NOT NULL COMMENT '单价(染色)/kg',
+  `danjiaHs` decimal(10,2) NOT NULL COMMENT '单价(烘纱)/kg',
+  `danjiaHd` decimal(10,2) NOT NULL COMMENT '单价(回倒)/kg',
+  `danjiaDb` decimal(10,2) NOT NULL COMMENT '单价(打包)/kg',
+  `memo` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='纱支各产量单价设置表';
+
+ALTER TABLE `dye_st_chanliang`
+ADD COLUMN `danjia`  decimal(10,2) NULL COMMENT '产量单价' AFTER `isHuixiu`,
+ADD COLUMN `money`  decimal(10,2) NULL COMMENT '产量金额' AFTER `danjia`;
+ALTER TABLE `dye_zcl_chanliang`
+ADD COLUMN `danjia`  decimal(10,2) NULL COMMENT '产量单价' AFTER `isHuixiu`,
+ADD COLUMN `money`  decimal(10,2) NULL COMMENT '产量金额' AFTER `danjia`;
+ALTER TABLE `dye_hs_chanliang`
+ADD COLUMN `danjia`  decimal(10,2) NULL COMMENT '产量单价' AFTER `isHuixiu`,
+ADD COLUMN `money`  decimal(10,2) NULL COMMENT '产量金额' AFTER `danjia`;
+ALTER TABLE `dye_hd_chanliang`
+ADD COLUMN `danjia`  decimal(10,2) NULL COMMENT '产量单价' AFTER `people`,
+ADD COLUMN `money`  decimal(10,2) NULL COMMENT '产量金额' AFTER `danjia`;
+ALTER TABLE `dye_db_chanliang`
+ADD COLUMN `danjia`  decimal(10,2) NULL COMMENT '产量单价' AFTER `cntXiang`,
+ADD COLUMN `money`  decimal(10,2) NULL COMMENT '产量金额' AFTER `danjia`;
+
+CREATE TABLE `caiwu_wages_guozhang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `chanliangId` int(11) NOT NULL,
+  `gangId` int(10) NOT NULL COMMENT '缸id',
+  `kind` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '过账类型',
+  `productId` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '产品Id',
+  `cntK` decimal(10,2) NOT NULL,
+  `danjia` decimal(10,3) NOT NULL,
+  `guozhangDate` date NOT NULL,
+  `chanliangDate` date NOT NULL COMMENT '产量登记时间',
+  `clientId` int(11) NOT NULL,
+  `banci` varchar(20) CHARACTER SET utf8 NOT NULL COMMENT '班次',
+  `workerCode` varchar(20) CHARACTER SET utf8 NOT NULL COMMENT '员工工号',
+  `money` decimal(15,3) NOT NULL,
+  `memo` varchar(200) COLLATE utf8_bin NOT NULL COMMENT '备注',
+  `creater` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '创建人',
+  `dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间',
+  PRIMARY KEY (`id`),
+  KEY `chanliangId` (`chanliangId`),
+  KEY `guozhangDate` (`guozhangDate`),
+  KEY `clientId` (`clientId`)
+) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='产量工资过账表';
+
+CREATE TABLE `dye_rs_chanliang2gxdetail` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `rsClId` int(10) NOT NULL COMMENT 'dye_rs_chanliang主键',
+  `gxId` int(10) NOT NULL COMMENT '工序id',
+  `cntK` decimal(10,2) NOT NULL COMMENT '公斤数',
+  `danjia` decimal(10,2) DEFAULT NULL COMMENT '单价',
+  `money` decimal(10,2) DEFAULT NULL COMMENT '金额',
+  `memo` varchar(100) COLLATE utf8_bin NOT NULL COMMENT '备注',
+  `dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `rsClId` (`rsClId`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='染色工序明细产量表';
+
+-- 2018年06月13日 11:00:18 by shen -- 
+CREATE TABLE `dye_chanliang` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `gangId` int(10) NOT NULL COMMENT 'plan_dye_gang主键',
+  `vatId` varchar(10) CHARACTER SET utf8 NOT NULL COMMENT '缸号',
+  `gxIds` varchar(20) COLLATE utf8_bin NOT NULL,
+  `wareName` varchar(30) COLLATE utf8_bin NOT NULL,
+  `cntTongzi` smallint(4) NOT NULL COMMENT '筒子数',
+  `cnt` decimal(10,2) NOT NULL COMMENT '公斤数',
+  `workerCode` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '工号',
+  `dateInput` date NOT NULL COMMENT '日期',
+  `dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `banci` varchar(10) COLLATE utf8_bin NOT NULL COMMENT '班次',
+  `danjia` decimal(10,3) NOT NULL COMMENT '单价',
+  `money` decimal(10,3) NOT NULL COMMENT '金额',
+  `type` int(10) NOT NULL COMMENT '产量类型',
+  `workerId` int(10) NOT NULL COMMENT '员工id',
+  `gxTypeId` int(10) DEFAULT NULL COMMENT '染色类型id',
+  `leixing` int(2) NOT NULL COMMENT '分为3类',
+  PRIMARY KEY (`id`),
+  KEY `gangId` (`gangId`),
+  KEY `dateInput` (`dateInput`)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='产量表';
+
+CREATE TABLE `ganghao_gx` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `gxId` int(10) NOT NULL,
+  `ganghao` varchar(100) COLLATE utf8_bin NOT NULL,
+  `dateInput` date NOT NULL COMMENT '录入时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='缸号工序完成表';
+
+CREATE TABLE `jichu_gxperson` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `perCode` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '员工编码',
+  `perName` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '员工名称',
+  `workerCode` varchar(60) COLLATE utf8_bin NOT NULL COMMENT '工号',
+  `sex` smallint(1) NOT NULL DEFAULT '0' COMMENT '性别',
+  `type` varchar(10) CHARACTER SET utf8 NOT NULL COMMENT '报工类别',
+  `mobile` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '手机',
+  `dateEnter` date NOT NULL COMMENT '入厂时间',
+  `dateLeave` date NOT NULL COMMENT '离厂时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='产量报工人员';
+
+CREATE TABLE `jichu_chanliang_gongxu` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `gongxuCode` varchar(20) COLLATE utf8_bin NOT NULL,
+  `gongxuName` varchar(20) COLLATE utf8_bin NOT NULL,
+  `type` int(10) NOT NULL COMMENT '工序类型',
+  `biaoshi` varchar(20) CHARACTER SET utf8 NOT NULL COMMENT '工序标识 对应纱支单价类型',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='工序表(产量登记时用)';
+
+drop table jichu_ware_danjia;
+
+CREATE TABLE `jichu_ware_danjia` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `wareId` int(10) NOT NULL COMMENT '坯纱货品档案id',
+  `danjia` decimal(10,2) NOT NULL COMMENT '单价/kg',
+  `gongxuId` int(10) NOT NULL COMMENT '工序id',
+  `memo` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='纱支各工序产量单价设置表';
+
+ALTER TABLE `plan_dye_gang`
+ADD COLUMN `zclWc`  int(2) NOT NULL COMMENT '是否完成染色';
+
+ALTER TABLE `plan_dye_gang`
+ADD COLUMN `rsWc`  int(2) NOT NULL COMMENT '染色是否完成' AFTER `zclWc`;
+
+ALTER TABLE `jichu_vat2gxprice`
+CHANGE COLUMN `kind` `gxTypeId`  int(20) NOT NULL COMMENT '类型';
+
+ALTER TABLE `plan_dye_gang`
+ADD COLUMN `rsStart`  int(2) NOT NULL AFTER `rsWc`;
+
+ALTER TABLE `ganghao_gx`
+ADD COLUMN `dateInput`  date NOT NULL COMMENT '录入时间' AFTER `ganghao`;
+
+ALTER TABLE `plan_dye_gang`
+ADD COLUMN `inputRsDate`  date NOT NULL COMMENT '染色时间';
+
+ALTER TABLE `plan_dye_gang`
+ADD COLUMN `inputZclDate`  date NOT NULL COMMENT '装出笼时间';
+
+ALTER TABLE `plan_dye_gang_merge`
+ADD COLUMN `isStartRs`  int(1) NOT NULL COMMENT '是否开始染色，并缸的' AFTER `isJiaji`;
+
+ALTER TABLE `plan_dye_gang_merge`
+ADD COLUMN `isStartRs`  int(1) NOT NULL COMMENT '是否已开始染色';
+
+-- 2018-06-22 by pan --
+
+ALTER 
+ALGORITHM=UNDEFINED 
+DEFINER=`root`@`localhost` 
+SQL SECURITY DEFINER 
+VIEW `view_dye_gang` AS 
+(
+  SELECT
+    `n`.`id` AS `clientId`,
+    `n`.`compName` AS `compName`,
+    `m`.`id` AS `wareId`,
+    `m`.`wareName` AS `wareName`,
+    `m`.`guige` AS `guige`,
+    `y`.`id` AS `order2wareId`,
+    `y`.`color` AS `color`,
+    `y`.`colorNum` AS `colorNum`,
+    `y`.`cntKg` AS `cntKg`,
+    `y`.`personDayang` AS `personDayang`,
+    `z`.`id` AS `orderId`,
+    `z`.`kind` AS `orderKind`,
+    `z`.`orderCode` AS `orderCode`,
+    `z`.`orderCode2` AS `orderCode2`,
+    `z`.`dateOrder` AS `dateOrder`,
+    `z`.`dateJiaohuo` AS `dateJiaohuo`,
+    `x`.`id` AS `gangId`,
+    `x`.`planDate` AS `planDate`,
+    `x`.`vatNum` AS `vatNum`,
+    `x`.`binggangId` AS `binggangId`,
+    `x`.`cntPlanTouliao` AS `cntPlanTouliao`,
+    `x`.`planTongzi` AS `planTongzi`,
+    `x`.`unitKg` AS `unitKg`,
+    `x`.`parentGangId` AS `parentGangId`,
+    `x`.`reasonHuixiu` AS `reasonHuixiu`,
+    `x`.`zhelv` AS `zhelv`,
+    `x`.`markTwice` AS `markTwice`,
+    `x`.`fensanOver` AS `fensanOver`,
+    `x`.`ranseBanci` AS `ranseBanci`,
+    `x`.`ranseBanci1` AS `ranseBanci1`,
+    `x`.`dateAssign` AS `dateAssign`,
+    `x`.`dateAssign1` AS `dateAssign1`,
+    `x`.`dateLingsha` AS `dateLingsha`,
+    `x`.`lingshaBanci` AS `lingshaBanci`,
+    `x`.`timesPrint` AS `timesPrint`,
+    `x`.`mergeId` AS `mergeId`,
+    `x`.`mergeChufangId` AS `mergeChufangId`,
+    `x`.`isJiaji` AS `isJiaji`,
+    `x`.`stOver` AS `stOver`,
+    `x`.`zclOver` AS `zclOver`,
+    `x`.`rsOver` AS `rsOver`,
+    `x`.`hsOver` AS `hsOver`,
+    `x`.`hdOver` AS `hdOver`,
+    `x`.`dbOver` AS `dbOver`,
+    `x`.`vat2shuirongId` AS `vat2shuirongId`,
+    `t`.`id` AS `vatId`,
+    `t`.`vatCode` AS `vatCode`,
+    `t`.`maxKg` AS `maxKg`
+  FROM
+    (
+      (
+        (
+          (
+            (
+              `plan_dye_gang` `x`
+              LEFT JOIN `trade_dye_order2ware` `y` ON (
+                (
+                  `x`.`order2wareId` = `y`.`id`
+                )
+              )
+            )
+            JOIN `trade_dye_order` `z` ON ((`y`.`orderId` = `z`.`id`))
+          )
+          JOIN `jichu_ware` `m` ON ((`y`.`wareId` = `m`.`id`))
+        )
+        JOIN `jichu_client` `n` ON ((`z`.`clientId` = `n`.`id`))
+      )
+      LEFT JOIN `jichu_vat` `t` ON ((`x`.`vatId` = `t`.`id`))
+    )
+) ;
+
+
+-- 2018-07-23 by pan --
+ALTER TABLE `jichu_gongyi2ware`
+ADD COLUMN `num`  int(10) NOT NULL COMMENT '序号' AFTER `timeRs`;
+
+ALTER TABLE `gongyi_dye_chufang2ware`
+ADD COLUMN `nums`  int(10) NOT NULL COMMENT '序号' AFTER `memo`;
+
+-- 2018-07-31 by shen --
+ALTER TABLE `jichu_gxperson`
+ADD COLUMN `banci`  int(10) NOT NULL DEFAULT 0 COMMENT '1是早班，2是晚班' AFTER `dateLeave`;
+
+-- 2018-08-21 by pan --
+ALTER TABLE `jichu_ware_danjia`
+MODIFY COLUMN `danjia`  decimal(10,3) NOT NULL COMMENT '单价/kg' AFTER `wareId`;
+
+-- 2018.10.29 by shen --
+ALTER TABLE `acm_userdb`
+ADD COLUMN `tel`  varchar(15) CHARACTER SET utf8 NULL COMMENT '手机号' AFTER `passwd`;
+
+-- 2018-11-05 by pan --
+CREATE TABLE `jichu_vat2gxzclprice` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `vatId` int(10) NOT NULL COMMENT '关联的染缸Id',
+  `gxId` int(30) NOT NULL COMMENT '染色工序id',
+  `price` decimal(10,3) NOT NULL COMMENT '价格',
+  `gxTypeId` int(20) NOT NULL COMMENT '类型',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='各染缸的装出笼工序单价';
+
+-- 2018-09-11 by pan --
+ALTER TABLE `jichu_chanliang_gongxu`
+ADD COLUMN `quanbu`  int(2) NOT NULL AFTER `biaoshi`,
+ADD COLUMN `fensan`  int(2) NOT NULL AFTER `quanbu`,
+ADD COLUMN `taomian`  int(2) NOT NULL AFTER `fensan`;
+
+ALTER TABLE `jichu_chanliang_gongxu`
+ADD COLUMN `huixiu`  int(2) NOT NULL COMMENT '回修标记' AFTER `taomian`;
+
+
+-- 2018-09-12 by pan --
+-- drop table jichu_vat2gxprice --
+
+CREATE TABLE `jichu_vat2gxprice` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `vatId` int(10) NOT NULL COMMENT '关联的染缸Id',
+  `gxId` int(30) NOT NULL COMMENT '染色工序id',
+  `price` decimal(10,2) NOT NULL COMMENT '价格',
+  `gxTypeId` int(20) NOT NULL COMMENT '类型',
+  `leixing` int(2) NOT NULL COMMENT '分为三大类，全棉为1，人棉为2，氨纶为3',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='各染缸的工序单价';
+
+ALTER TABLE `dye_chanliang`
+ADD COLUMN `rsType`  varchar(50) NULL COMMENT '染色类型（分散和套棉）';
+
+CREATE TABLE `ganghuixiu_gx` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `gxId` int(10) NOT NULL,
+  `gangId` varchar(100) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='缸号回修对应的工序';
+
+ALTER TABLE `plan_dye_gang`
+ADD COLUMN `taomianOver`  int(2) NOT NULL COMMENT '套棉完成标记';
+
+-- 2019-01-03  by pan --
+ALTER TABLE `gongyi_dye_chufang2ware`
+MODIFY COLUMN `unitKg`  decimal(10,6) NOT NULL COMMENT '单位用量' AFTER `wareId`;
+
+-- 2019-08-26  by shen --
+CREATE TABLE `acm_qrcodeverify` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `token` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'token',
+  `userName` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '用户名',
+  `compCode` varchar(32) COLLATE utf8_bin NOT NULL COMMENT '公司代号',
+  `timestamp` int(10) unsigned NOT NULL COMMENT '时间戳',
+  `projectAdd` varchar(200) COLLATE utf8_bin NOT NULL COMMENT '项目地址',
+  `status` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '状态',
+  `message` varchar(300) COLLATE utf8_bin NOT NULL COMMENT '返回信息',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `token` (`token`) USING BTREE,
+  KEY `timestamp` (`timestamp`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='二维码登陆验证记录';
+ALTER TABLE `acm_userdb` 
+ADD COLUMN `qrCodeVerify` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否需要扫码验证' AFTER `realName`,
+ADD INDEX `qrCodeVerify`(`qrCodeVerify`);
+CREATE TABLE `api_log` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `type` smallint(1) NOT NULL COMMENT '0表示响应1表示调用',
+  `success` tinyint(1) NOT NULL COMMENT '是否成功',
+  `apiName` varchar(100) NOT NULL COMMENT 'api名称',
+  `url` varchar(200) NOT NULL COMMENT '回应地址',
+  `params` text NOT NULL COMMENT '传参',
+  `msg` text NOT NULL COMMENT '错误信息',
+  `calltime` datetime NOT NULL COMMENT '调用时间',
+  `retrytime` datetime NOT NULL COMMENT '重试时间',
+  `retrytimes` int(4) NOT NULL DEFAULT '0' COMMENT '重试次数',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='api调用日志';
+
+-- 2019-08-30 by pan --
+ALTER TABLE `acm_userdb`
+ADD COLUMN `lastLoginTime`  date NOT NULL COMMENT '最后登录时间' AFTER `employId`,
+ADD COLUMN `loginCnt`  int(10) NOT NULL COMMENT '登录次数' AFTER `lastLoginTime`;
+
+-- 2019-09-19 by pan --
+ALTER TABLE `acm_userdb`
+ADD COLUMN `isBoss`  int(1) NOT NULL COMMENT '是否为老板' AFTER `loginCnt`;
+
+
+-- 2020-02-05 by shen --
+ALTER TABLE `acm_userdb`
+ADD COLUMN `openid`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'openid' AFTER `employId`;
+ALTER TABLE `jichu_chanliang_gongxu`
+ADD COLUMN `mamianps`  int(2) NOT NULL COMMENT '麻棉漂纱' AFTER `huixiu`;
+ALTER TABLE `jichu_vat2gxprice`
+ADD COLUMN `leixing`  int(11) NOT NULL COMMENT '分为三大类，全棉为1，人棉为2，氨纶为3' AFTER `gxTypeId`;
+

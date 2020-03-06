@@ -1,0 +1,88 @@
+/* CSS Document */	
+body, div, ul, form{margin: 0px; padding:0px;}
+
+body {font:12px Arial, Helvetica, sans-serif;}
+
+form{}
+
+ul{list-style:none}
+
+textarea {overflow: auto;}
+
+fieldset {background-color:#F4FAFB; padding:10px;}
+
+legend{color:#003366; border:0px; font-weight:bold}
+
+#container{margin:10px; text-align:center}
+
+.tableHaveBorder {border-collapse:collapse; border:1px solid #999999;}
+.tableHaveBorder td {border-bottom:1px solid #999999; border-right:1px solid #999999;}
+
+/***************************************************************************/
+
+#table_baseinfo{text-align:left;width:100%; height:100%}
+#table_baseinfo td{font:12px Arial, Helvetica, sans-serif;}
+#table_moreinfo{text-align:center;width:100%; height:100%}
+#table_moreinfo td{height:25px;font:12px Arial, Helvetica, sans-serif;}
+
+
+
+#footButton{width:300px; margin-top:10px;}
+#footButton li{padding-left:30px; float:left;}
+#footButton input{width:100px; height:30px; padding-top:3px;}
+
+
+
+.th{background-color:#cccccc}
+.tdTitle{background-color:#cccccc;}
+
+
+html, body {
+	scrollbar-face-color: #15A3D9;
+	scrollbar-highlight-color: #555555;
+	scrollbar-3dlight-color: #555555;
+	scrollbar-darkshadow-color: #60B7DE;
+	scrollbar-shadow-color: #555555;
+	scrollbar-arrow-color: #FFFFFF;
+	scrollbar-track-color: #A4D6EA;
+	background: #dae6f3;
+	margin-top:0px; padding-top:0px
+}
+
+fieldset {
+	border:1px dashed #ff9966;
+	
+}
+.legendFront { font-size:14px; font-weight:bold; color:#FF9900}
+
+legend {
+border:0px;background-color:white; font-size:12px;
+}
+
+div table {
+	width:80%;/**/
+	border-collapse:collapse;
+	border:1px solid #86B5E7;
+	background-color:#FFFFFF;
+}
+
+div table td {
+	/**/border-bottom:1px solid #86B5E7;
+	border-right:1px solid #86B5E7;
+	font:"新宋体";
+	font-size:12px;
+	height:30px
+}
+.tdItem {background-color:#f1f5f8;}
+
+
+input{
+	border: 1px solid #3c3c3c;
+	/*width:100px;*/
+	height:25px;
+	/*font-weight: bold;*/
+	background-color: #b5d0ee;
+}
+
+.th td{font-weight:bold; font-size:14px;}
+/*#submit {background:#006699}*/
