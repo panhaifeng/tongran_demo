@@ -17,7 +17,7 @@ return array(
         'driver'    => 'mysql',
         'host'      => '127.0.0.1',
         'login'     => 'root',
-        'password'  => 'root',
+        'password'  => 'phf571358',
         'database'  => 'tongran_mini_demo',
        // 'database'  => 'niuzai_kailan',
     ),
